@@ -40,7 +40,6 @@ public class WithdrawalTest {
         newAccount.deposit(Amount.of(5L));
 
         Assertions.assertThatThrownBy(() -> newAccount.withdraw(Amount.of(50L))).isInstanceOf(InvalidBalanceException.class);
-
     }
 
     @Test

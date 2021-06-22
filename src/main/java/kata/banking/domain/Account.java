@@ -2,6 +2,7 @@ package kata.banking.domain;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Account {
 
@@ -18,6 +19,16 @@ public class Account {
     }
 
     public void withdraw(Amount amount) {
+        calculateBalance(Amount.of(amount.getValue().negate()));
+        repository.addOperation(new Operation(OperationType.WITHDRAW, LocalDateTime.now(clock), amount));
     }
+
+    private Balance calculateBalance(Amount newAmount) {
+        AtomicReference<Amount> amount = new AtomicReference<>(newAmount);
+        repository.findOperations()
+                .forEach(operation -> amount.set(operation.operationType.apply(amount.get(), operation.amount)));
+        return Balance.of(amount.get().getValue());
+    }
+
 
 }

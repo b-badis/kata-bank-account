@@ -8,6 +8,7 @@ public class Balance {
 
     private Balance(BigDecimal value) {
         this.value = value;
+        check();
     }
 
     public static Balance zero() {
@@ -26,8 +27,9 @@ public class Balance {
         return value;
     }
 
-    public Balance addAmount(Amount amount) {
-        return Balance.of(value.add(amount.getValue()));
+    void check() {
+        if (value.compareTo(BigDecimal.ZERO) < 0) {
+            throw new InvalidBalanceException("Balance must be positive");
+        }
     }
-
 }
