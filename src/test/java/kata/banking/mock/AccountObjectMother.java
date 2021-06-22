@@ -1,6 +1,7 @@
 package kata.banking.mock;
 
 import kata.banking.domain.*;
+import kata.banking.infra.InMemoryStatementPrinter;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.time.Clock;
@@ -13,14 +14,22 @@ public class AccountObjectMother {
 
     private final BankRepository bankRepository;
     private final Clock clock;
+    private final StatementPrinter printer;
 
     public AccountObjectMother(BankRepository bankRepository, Clock clock) {
         this.bankRepository = bankRepository;
         this.clock = clock;
+        this.printer = new InMemoryStatementPrinter();
+    }
+
+    public AccountObjectMother(BankRepository bankRepository, Clock clock, StatementPrinter printer) {
+        this.bankRepository = bankRepository;
+        this.clock = clock;
+        this.printer = printer;
     }
 
     public Account newAccount() {
-        return new Account(bankRepository, clock);
+        return new Account(bankRepository, clock, printer);
     }
 
     public List<Operation> generateOperations(int number) {

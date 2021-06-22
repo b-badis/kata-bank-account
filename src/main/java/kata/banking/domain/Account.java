@@ -8,10 +8,12 @@ public class Account {
 
     private final BankRepository repository;
     private final Clock clock;
+    private final StatementPrinter printer;
 
-    public Account(BankRepository repository, Clock clock) {
+    public Account(BankRepository repository, Clock clock, StatementPrinter printer) {
         this.repository = repository;
         this.clock = clock;
+        this.printer = printer;
     }
 
     public void deposit(Amount amount) {
@@ -30,5 +32,8 @@ public class Account {
         return Balance.of(amount.get().getValue());
     }
 
+    public void printHistory() {
+
+    }
 
 }
