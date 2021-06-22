@@ -2,7 +2,9 @@ package kata.banking.domain;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 public class Account {
 
@@ -33,7 +35,16 @@ public class Account {
     }
 
     public void printHistory() {
-
+        AtomicReference<Amount> amount = new AtomicReference<>(Amount.zero());
+        List<StatementLine> statementLines = repository.findOperations().stream()
+                .map(operation -> {
+                    OperationType operationType = operation.operationType;
+                    amount.set(operationType.apply(amount.get(), operation.amount));
+                    Balance balance = Balance.of(amount.get().getValue());
+                    return new StatementLine(operationType, operation.dateTime, operation.amount, balance);
+                })
+                .collect(Collectors.toList());
+        printer.print(new Statement(statementLines, printer));
     }
 
 }

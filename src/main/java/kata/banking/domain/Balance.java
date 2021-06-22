@@ -32,4 +32,19 @@ public class Balance {
             throw new InvalidBalanceException("Balance must be positive");
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Balance balance = (Balance) o;
+
+        return getValue() != null ? getValue().equals(balance.getValue()) : balance.getValue() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getValue() != null ? getValue().hashCode() : 0;
+    }
 }

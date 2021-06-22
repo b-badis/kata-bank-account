@@ -40,8 +40,9 @@ public class HistoryTest {
     @Test
     public void handleHistoryForNewAccountWithOneStatementLine() {
         Account newAccount = accountObjectMother.newAccount();
-
         newAccount.deposit(Amount.of(5L));
+
+        newAccount.printHistory();
 
         List<StatementLine> statementLines = printer.getStatement().getStatements();
         Assertions.assertThat(statementLines).hasSize(1);
@@ -52,14 +53,15 @@ public class HistoryTest {
     @Test
     public void handleHistoryForNewAccountWithMultipleStatementLine() {
         Account newAccount = accountObjectMother.newAccount();
-
         newAccount.deposit(Amount.of(5L));
         newAccount.deposit(Amount.of(5L));
         newAccount.withdraw(Amount.of(5L));
 
+        newAccount.printHistory();
+
         List<StatementLine> statementLines = printer.getStatement().getStatements();
         Assertions.assertThat(statementLines).hasSize(3);
         Assertions.assertThat(statementLines)
-                .contains(new StatementLine(OperationType.WITHDRAW, LocalDateTime.now(clock), Amount.of(5L), Balance.of(10L)));
+                .contains(new StatementLine(OperationType.WITHDRAW, LocalDateTime.now(clock), Amount.of(5L), Balance.of(5L)));
     }
 }
