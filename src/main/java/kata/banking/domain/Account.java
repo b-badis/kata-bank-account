@@ -17,5 +17,7 @@ public class Account {
         repository.addOperation(new Operation(OperationType.DEPOSIT, LocalDateTime.now(clock), amount));
     }
 
+    public void withdraw(Amount amount) {
+    }
 
 }
