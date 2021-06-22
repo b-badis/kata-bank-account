@@ -35,7 +35,6 @@ public class WithdrawalTest {
     @Test
     public void handleOldAccountWithdrawCommandWithInsufficientBalance() {
         Account newAccount = accountObjectMother.newAccount();
-        accountObjectMother.generateOperations(5);
 
         newAccount.deposit(Amount.of(5L));
 
